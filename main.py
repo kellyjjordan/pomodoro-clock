@@ -16,4 +16,18 @@ class PomodoroTimer:
 
         self.root.mainloop()
 
+    #Functions for the timer
+
+    #start timer threads 
+
+    #start timer function
+
+    #reset timer
+
+    #skip clock
+
+    #pause clock
+
+    
+
 PomodoroTimer()

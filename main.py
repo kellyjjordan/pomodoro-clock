@@ -22,15 +22,28 @@ class PomodoroTimer:
         #tabs 
         self.tabs = ttk.Notebook(self.root)
         self.tabs.pack(fill="both", pady=10, expand=True)
+
         #creating the tabs 
         self.tab1 = ttk.Frame(self.tabs, width=600,height=100)
         self.tab2 = ttk.Frame(self.tabs, width=600,height=100)
         self.tab3 = ttk.Frame(self.tabs, width=600,height=100)
 
+        #customizing the tabs with label (adding in the default timer, fonts and futher styling)
+        self.pomodoro_timer_label = ttk.Label(self.tab1, text="25:00", font=("Ubuntu", 48))
+        self.pomodoro_timer_label.pack(pady=20)
+
+        self.short_break_label = ttk.Label(self.tab2, text="5:00", font=("Ubuntu", 48))
+        self.short_break_label.pack(pady=20)
+
+        self.long_break_label = ttk.Label(self.tab3, text="15:00", font=("Ubuntu", 48))
+        self.long_break_label.pack(pady=20)
+
+
         self.tabs.add(self.tab1, text="Pomodoro")
         self.tabs.add(self.tab2, text="Short break")
         self.tabs.add(self.tab3, text="Long Break")
 
+        #adding in the buttons 
 
 
 

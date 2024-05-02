@@ -145,7 +145,13 @@ class PomodoroTimer:
         
     #skip clock
     def skip_clock(self):
-        pass
+        current_tab = self.tabs.index(self.tabs.select())
+        if current_tab == 0:
+            self.pomodoro_timer_label.config(text="25:00")
+        elif current_tab ==1:
+            self.short_break_label.config(text="05:00")
+        elif current_tab == 2:
+            self.long_break_label.config(text="15:00")
     #pause clock
     def pasue_timer(self):
         pass

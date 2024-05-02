@@ -64,6 +64,7 @@ class PomodoroTimer:
         self.pomodoro = 0
         self.skipped = False
         self.stopped = False
+        self.running = False
 
 
 
@@ -75,8 +76,10 @@ class PomodoroTimer:
 
     #start timer threads 
     def start_timer_thread(self):
-        t = threading.Thread(target=self.start_timer)
-        t.start()
+        if not self.running:
+            t = threading.Thread(target=self.start_timer)
+            t.start()
+            self.running = True
         
 
     #start timer function
@@ -84,6 +87,7 @@ class PomodoroTimer:
         self.stopped = False
         self.skipped = False
         timer_id = self.tabs.index(self.tabs.select()) + 1
+
 
         #time loop
         if timer_id == 1:
@@ -135,13 +139,14 @@ class PomodoroTimer:
 
     #reset timer
     def reset_timer(self): #resets the pomodoro 
-        self.stopped = True
+        self.stopped = True #pauses the timer 
         self.skipped = False
         self.pomodoro = 0
         self.pomodoro_timer_label.config(text="25:00")
         self.short_break_label.config(text="05:00")
         self.long_break_label.config(text="15:00")
         self.pomodoro_counter_label.config(text="Pomodoros: 0")
+        self.running = False
         
     #skip clock
     def skip_clock(self):
@@ -152,6 +157,9 @@ class PomodoroTimer:
             self.short_break_label.config(text="05:00")
         elif current_tab == 2:
             self.long_break_label.config(text="15:00")
+
+        self.stopped = True
+        self.skipped = True
     #pause clock
     def pasue_timer(self):
         pass

@@ -134,9 +134,15 @@ class PomodoroTimer:
 
 
     #reset timer
-    def reset_timer(self):
+    def reset_timer(self): #resets the pomodoro 
+        self.stopped = True
+        self.skipped = False
+        self.pomodoro = 0
+        self.pomodoro_timer_label.config(text="25:00")
+        self.short_break_label.config(text="05:00")
+        self.long_break_label.config(text="15:00")
+        self.pomodoro_counter_label.config(text="Pomodoros: 0")
         
-        pass
     #skip clock
     def skip_clock(self):
         pass

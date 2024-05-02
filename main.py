@@ -59,7 +59,12 @@ class PomodoroTimer:
 
         #adding the label count for the pormodo
         self.pomodoro_counter_label = ttk.Label(self.grid_layout, text="Pomodoro: 0", font=("Ubuntu",16))
-        self.pomodoro_counter_label.grid(row=1, column=0, columnspan=3) #columnspan adjusted the position of the column?
+        self.pomodoro_counter_label.grid(row=1, column=0, columnspan=3, pady=10) #columnspan adjusted the position of the column?
+
+        self.pomodoro = 0
+        self.skipped = False
+        self.stopped = False
+
 
 
 
@@ -70,11 +75,63 @@ class PomodoroTimer:
 
     #start timer threads 
     def start_timer_thread(self):
-        pass
+        t = threading.Thread(target=self.start_timer)
+        t.start()
+        
 
     #start timer function
     def start_timer(self):
-        pass
+        self.stopped = False
+        self.skipped = False
+        timer_id = self.tabs.index(self.tabs.select()) + 1
+
+        #time loop
+        if timer_id == 1:
+            full_seconds = 60 * 25
+            while full_seconds > 0 and not self.stopped:
+                minutes,seconds = divmod(full_seconds, 60)
+                self.pomodoro_timer_label.config(text=f"{minutes:02d}:{seconds:02d}")
+                self.root.update()
+                time.sleep(1)
+                full_seconds -=1
+            if not self.stopped or self.skip_button: #if the looped is stopped for some other reason
+                self.pomodoro += 1 
+                self.pomodoro_counter_label.config(text=f"Pomodoros: {self.pomodoro}")
+                #checks for break time
+                if self.pomodoro % 4 ==0:
+                    self.tabs.select(2)
+                else:
+                    self.tabs.select(1)
+                self.start_timer()
+            #break interval loop
+            elif timer_id == 2:
+                full_seconds=60 * 5
+                while full_seconds > 0 and not self.stopped:
+                    minutes, seconds = divmod(full_seconds, 60)
+                    self.short_break_label.config(text=f"{minutes:02d}:{seconds:02d}")
+                    self.root.update()
+                    time.sleep(1)
+                    full_seconds -=1
+
+                if not self.stopped or self.skip_button:
+                    self.tabs.select(0)
+                    self.start_timer()
+
+                elif timer_id == 3:
+                    full_seconds = 60* 15
+                    while full_seconds > 0 and not self.stopped:
+                        minutes,seconds = divmod(full_seconds, 60)
+                        self.long_break_label.config(text=f"{minutes:02d}:{seconds:02d}")
+                        self.root.update()
+                        time.sleep(1)
+                        full_seconds -=1
+
+                    if not self.stopped or self.skipped:
+                        self.tabs.select(0)
+                        self.start_timer()
+                    else:
+                        print("invalid timer_id") #error 
+
 
     #reset timer
     def reset_timer(self):
